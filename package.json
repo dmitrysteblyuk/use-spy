@@ -2,10 +2,11 @@
   "name": "use-spy",
   "version": "0.0.0",
   "description": "Patternless state management for React.",
-  "main": "./lib/main/index.js",
-  "types": "./lib/main/index.d.ts",
-  "module": "./lib/module/index.js",
+  "main": "./lib/main/react/index.js",
+  "types": "./lib/main/react/index.d.ts",
+  "module": "./lib/module/react/index.js",
   "author": "Dmitry Steblyuk",
+  "url": "https://github.com/dmitrysteblyuk/use-spy",
   "license": "MIT",
   "files": [
     "lib"
@@ -15,24 +16,53 @@
     "build:main": "tsc --project tsconfig-main.json",
     "build:module": "tsc --project tsconfig-module.json",
     "build:clean": "rimraf lib",
-    "test": "yarn test:types && yarn test:unit",
+    "test": "yarn test:duplicate && yarn assert-no-vulnerabilities && yarn test:types && yarn test:unit",
+    "test:duplicate": "yarn dedupe --check --strategy highest",
     "test:types": "tsc --noEmit",
-    "test:unit": "jest --passWithNoTests",
-    "publish": "semantic-release"
+    "test:unit": "jest",
+    "assert-no-vulnerabilities": "bash -c 'yarn npm audit; [[ $? -ge 1 ]] && exit 1 || exit 0' && echo 'No vulnerabilities found.'",
+    "release": "yarn test && yarn build && yarn publish:check && semantic-release",
+    "publish:check": "./scripts/check-files-to-publish.sh"
   },
   "optionalDependencies": {
-    "react": "^17.0.2"
+    "@types/react": "*",
+    "react": "*"
   },
   "devDependencies": {
+    "@jest/globals": "^26.6.2",
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/commit-analyzer": "^8.0.1",
+    "@semantic-release/git": "^9.0.0",
+    "@semantic-release/npm": "^7.1.1",
+    "@semantic-release/release-notes-generator": "^9.0.2",
+    "@testing-library/react-hooks": "^5.1.1",
+    "@types/react": "^17.0.3",
     "jest": "^26.6.3",
     "react": "^17.0.2",
+    "react-test-renderer": "^17.0.2",
     "rimraf": "^3.0.2",
     "semantic-release": "^17.4.2",
+    "ts-jest": "^26.5.5",
     "typescript": "^4.2.4"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testPathIgnorePatterns": [
+      "node_modules",
+      "<rootDir>/lib/"
+    ],
+    "globals": {
+      "ts-jest": {
+        "diagnostics": false
+      }
+    }
   },
   "release": {
     "repositoryUrl": "git@github.com:dmitrysteblyuk/use-spy.git",
-    "branches": ["master", "next"],
+    "branches": [
+      "master",
+      "next"
+    ],
     "plugins": [
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
