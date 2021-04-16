@@ -1,7 +1,6 @@
 import {renderHook, act} from '@testing-library/react-hooks'
 import {describe, expect, it} from '@jest/globals';
-import {spy} from '../';
-import {useSpy} from './';
+import {spy, useSpy} from './';
 
 describe('spy()', () => {
   it('should spy on a counter', async () => {

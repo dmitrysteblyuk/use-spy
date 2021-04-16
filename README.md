@@ -1,69 +1,96 @@
 # use-spy
 
-Patternless state management for React.
+[![npm](https://img.shields.io/npm/v/use-spy/latest.svg)](https://www.npmjs.com/package/use-spy)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-`spy()` does not change application logic, state or behavior.
+State management solution for React without forced structure or pattern.
 
-It exists only as an agent for `useSpy()` to retrieve any data from any place in your application.
-
-### Installation
+## Installation
 
 ```
 yarn add use-spy
 ```
 
-1.5Kb minified.
+<b>1.5Kb</b> minified.
 
-### Usage
+## Usage
+
+`spy()` does not change application logic, state or behavior.<br>
+It exists only as an agent for `useSpy()` to retrieve any data from any place in your application.
 
 ```jsx
-import React, { useRef } from "react";
-import ReactDOM from "react-dom";
 import { spy, useSpy } from "use-spy";
 
-// This function doesn't know anything about React.
-// `spy()` doesn't affect its logic or its behavior.
-const createCounter = (interval = 1000) => {
-  const count = spy(0);
-  const intervalId = spy(null);
-  const toggle = () => {
-    if (intervalId.$ === null) {
-      intervalId.$ = setInterval(() => count.$++, interval);
-    } else {
-      clearInterval(intervalId.$);
-      intervalId.$ = null;
-      count.$ = 0;
-    }
-  };
-  return {
-    getCount: () => count.$,
-    isCounting: () => intervalId.$ !== null,
-    toggle
-  };
+const createClock = () => {
+  const time = spy(new Date());
+  setInterval(() => (time.$ = new Date()), 1000);
+  return () => time.$;
 };
+const getTime = createClock();
 
 const App = () => {
-  const counter = (useRef().current ??= createCounter());
-  const [count, isCounting] = useSpy(() => [
-    counter.getCount(),
-    counter.isCounting()
-  ]);
-  return (
-    <>
-      {count}
-      &nbsp;
-      <button onClick={counter.toggle}>{isCounting ? "Stop" : "Start"}</button>
-    </>
-  );
+  const time = useSpy(getTime);
+  return <>{time.toLocaleTimeString()}</>;
 };
-
-ReactDOM.render(<App />, document.getElementById("root"));
 ```
 
-On CodeSandbox:
+Edit on CodeSandbox: https://codesandbox.io/s/determined-pine-q1rgh
 
-https://codesandbox.io/s/nifty-platform-rjr4c?file=/src/index.tsx
+## Examples
 
-### More Examples
+Delegate logic to a class: https://codesandbox.io/s/jovial-faraday-juc3i
 
-https://codesandbox.io/s/jovial-faraday-juc3i?file=/src/App.tsx
+Delegate logic to a factory: https://codesandbox.io/s/nifty-platform-rjr4c
+
+## Difference from state management frameworks
+
+Spy advocates for minimalism and natural JS syntax.
+
+It is not a framework, just a convenient way to solve the long-standing issue.
+
+### Recoil
+
+```jsx
+import { RecoilRoot, atom, selector, useRecoilValue, useRecoilState } from "recoil";
+
+const textState = atom({
+  key: "textState",
+  default: ""
+});
+const charCountState = selector({
+  key: "charCountState",
+  get: ({ get }) => {
+    const text = get(textState);
+    return text.length;
+  }
+});
+
+function CharacterCount() {
+  const count = useRecoilValue(charCountState);
+  return <>Character Count: {count}.</>;
+}
+function App() {
+  return (
+    <RecoilRoot>
+      <CharacterCount />
+    </RecoilRoot>
+  );
+}
+```
+
+### Spy
+
+```jsx
+import { spy, useSpy } from "use-spy";
+
+const text = spy("");
+const getCharCount = () => text.$.length;
+
+function CharacterCount() {
+  const count = useSpy(getCharCount);
+  return <>Character Count: {count}</>;
+}
+function App() {
+  return <CharacterCount />;
+}
+```

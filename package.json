@@ -5,7 +5,8 @@
   "keywords": [
     "react",
     "state",
-    "reactive"
+    "reactive",
+    "observable"
   ],
   "main": "./lib/main/react/index.js",
   "types": "./lib/main/react/index.d.ts",

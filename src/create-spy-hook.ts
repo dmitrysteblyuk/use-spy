@@ -13,10 +13,10 @@ export interface RequiredHooks {
 }
 
 export function createSpyHook({useEffect, useRef, useState}: RequiredHooks) {
-  return function useSpy<T>(getValue: () => T, {
-    spy = defaultSpy,
-    scheduler
-  }: Partial<UseOptions> = {}) {
+  return function useSpy<T>(
+    getValue: () => T,
+    {spy = defaultSpy, scheduler}: Partial<UseOptions> = {}
+  ) {
     let value!: T;
     const effectRef = useRef<Disposable>();
     if (effectRef.current === undefined) {
