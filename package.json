@@ -2,11 +2,16 @@
   "name": "use-spy",
   "version": "1.0.0",
   "description": "Patternless state management for React.",
+  "keywords": [
+    "react",
+    "state",
+    "reactive"
+  ],
   "main": "./lib/main/react/index.js",
   "types": "./lib/main/react/index.d.ts",
   "module": "./lib/module/react/index.js",
   "author": "Dmitry Steblyuk",
-  "url": "https://github.com/dmitrysteblyuk/use-spy",
+  "repository": "https://github.com/dmitrysteblyuk/use-spy.git",
   "license": "MIT",
   "files": [
     "lib"

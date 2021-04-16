@@ -62,8 +62,8 @@ ReactDOM.render(<App />, document.getElementById("root"));
 
 On CodeSandbox:
 
-https://codesandbox.io/s/nifty-platform-rjr4c?file=/src/index.js:0-1089
+https://codesandbox.io/s/nifty-platform-rjr4c?file=/src/index.tsx
 
 ### More Examples
 
-https://codesandbox.io/s/jovial-faraday-juc3i?file=/src/App.js
+https://codesandbox.io/s/jovial-faraday-juc3i?file=/src/App.tsx
