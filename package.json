@@ -1,6 +1,6 @@
 {
   "name": "use-spy",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Patternless state management for React.",
   "main": "./lib/main/react/index.js",
   "types": "./lib/main/react/index.d.ts",
