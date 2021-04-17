@@ -15,7 +15,8 @@ yarn add use-spy
 
 ## Usage
 
-`spy()` does not change application logic, state or behavior.<br>
+`spy()` does not change application logic, state or behavior.
+
 It exists only as an agent for `useSpy()` to retrieve any data from any place in your application.
 
 ```jsx
@@ -34,13 +35,23 @@ const App = () => {
 };
 ```
 
-Edit on CodeSandbox: https://codesandbox.io/s/determined-pine-q1rgh
+Edit on CodeSandbox - https://codesandbox.io/s/determined-pine-q1rgh
 
-## Examples
+## Advantages
 
-Delegate logic to a class: https://codesandbox.io/s/jovial-faraday-juc3i
+With Spy you can easily separate application logic and state management from component UI.
 
-Delegate logic to a factory: https://codesandbox.io/s/nifty-platform-rjr4c
+It will make logic and state reusable, readable and testable.
+
+You will not need any React testing library to write unit tests for it.
+
+You can isolate logic to classes, factories, hooks etc.
+
+### Examples
+
+Delegate logic to a class - https://codesandbox.io/s/jovial-faraday-juc3i
+
+Delegate logic to a factory - https://codesandbox.io/s/nifty-platform-rjr4c
 
 ## Difference from state management frameworks
 
