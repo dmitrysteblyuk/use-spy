@@ -30,7 +30,7 @@ export interface EffectAPI {
   <T>(
     getValue: () => T,
     observer: ValueObserver<T>,
-    scheduler?: Scheduler
+    scheduler?: Scheduler | null
   ): Disposable;
 }
 export interface Spy {

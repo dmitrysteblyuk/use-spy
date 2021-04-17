@@ -14,7 +14,7 @@ export function createEffectAPI(getDefaultScheduler: () => Scheduler) {
     constructor(
       getValue: () => T,
       observer: ValueObserver<T>,
-      scheduler: Scheduler
+      scheduler: Scheduler | null
     ) {
       this.#getValue = getValue;
       this.#observer = observer;
@@ -50,7 +50,7 @@ export function createEffectAPI(getDefaultScheduler: () => Scheduler) {
       }
     }
     dispose() {
-      this.#scheduler.removeFromQueue(this);
+      this.#scheduler?.removeFromQueue(this);
       for (const dependency of this.#dependencies) {
         dependency[offPrivate](this);
       }
@@ -61,7 +61,11 @@ export function createEffectAPI(getDefaultScheduler: () => Scheduler) {
         = null;
     }
     notify() {
-      this.#scheduler.addToQueue(this);
+      if (this.#scheduler === null) {
+        this.execute();
+      } else {
+        this.#scheduler.addToQueue(this);
+      }
     }
   }
   const effect: EffectAPI = (

@@ -1,9 +1,9 @@
 import {spy as defaultSpy} from '.';
 import {Disposable, effectPrivate, Spy, Scheduler} from './types';
 
-export interface UseOptions {
+export interface SpyHookOptions {
   spy: Spy;
-  scheduler: Scheduler;
+  scheduler: Scheduler | null;
 }
 
 export interface RequiredHooks {
@@ -15,7 +15,7 @@ export interface RequiredHooks {
 export function createSpyHook({useEffect, useRef, useState}: RequiredHooks) {
   return function useSpy<T>(
     getValue: () => T,
-    {spy = defaultSpy, scheduler}: Partial<UseOptions> = {}
+    {spy = defaultSpy, scheduler}: Partial<SpyHookOptions> = {}
   ) {
     let value!: T;
     const effectRef = useRef<Disposable>();
