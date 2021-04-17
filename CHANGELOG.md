@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/dmitrysteblyuk/use-spy/compare/v1.0.1...v1.1.0) (2021-04-17)
+
+
+### Features
+
+* execute useSpy callback immediately if scheduler is null ([55bfc45](https://github.com/dmitrysteblyuk/use-spy/commit/55bfc45ab75ee555f88a4eae591fcf820aeb99ad))
+
 ## [1.0.1](https://github.com/dmitrysteblyuk/use-spy/compare/v1.0.0...v1.0.1) (2021-04-16)
 
 
