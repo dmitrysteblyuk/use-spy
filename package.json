@@ -27,7 +27,7 @@
     "test:types": "tsc --noEmit",
     "test:unit": "jest",
     "assert-no-vulnerabilities": "bash -c 'yarn npm audit; [[ $? -ge 1 ]] && exit 1 || exit 0' && echo 'No vulnerabilities found.'",
-    "release": "yarn test && yarn build && yarn publish:check && semantic-release",
+    "release": "yarn build:clean && yarn test && yarn build && yarn publish:check && semantic-release",
     "publish:check": "./scripts/check-files-to-publish.sh"
   },
   "devDependencies": {
