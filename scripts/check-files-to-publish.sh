@@ -1,9 +1,15 @@
 set -e
 declare -a mustContainFiles=$(
   node -e "
-    const {files, main, module, types} = require('./package.json');
+    const index = require('./package.json');
+    const core = require('./core/package.json');
     process.stdout.write(
-      [].concat(files, main, module, types).filter(Boolean).join(' ')
+      [].concat(
+        index.main, index.module, index.types, index.files,
+        ...[core.main, core.module, core.types].map(
+          (file) => path.relative('../', file)
+        )
+      ).join(' ')
     );
   "
 )

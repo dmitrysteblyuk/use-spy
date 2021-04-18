@@ -39,7 +39,7 @@ Edit on CodeSandbox - https://codesandbox.io/s/determined-pine-q1rgh
 
 ## Advantages
 
-With Spy you can easily separate application logic and state management from component UI.
+With Spy you can easily decouple application logic and state management from components UI.
 
 It will make logic and state reusable, readable and testable.
 
@@ -55,9 +55,14 @@ Delegate logic to a factory - https://codesandbox.io/s/nifty-platform-rjr4c
 
 ## Difference from state management frameworks
 
-Spy advocates for minimalism and natural JS syntax.
+Most state management frameworks for React can be split into 3 groups:
+  1. Redux-ish
+  2. Mobx-ish
+  3. React-ish
 
-It is not a framework, just a convenient way to solve the long-standing issue.
+Spy is JavaScript-ish because it does not force any pattern or structure.
+
+It is not a framework, it is a native JS solution for the long-standing issue.
 
 ### Recoil
 
