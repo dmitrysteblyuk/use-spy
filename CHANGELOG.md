@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/dmitrysteblyuk/use-spy/compare/v1.1.0...v1.2.0) (2021-04-18)
+
+
+### Features
+
+* export core entry, remove dependency on react ([3708230](https://github.com/dmitrysteblyuk/use-spy/commit/37082300a54165ec8a5d1f4b824bf883e0e26795))
+
 # [1.1.0](https://github.com/dmitrysteblyuk/use-spy/compare/v1.0.1...v1.1.0) (2021-04-17)
 
 
