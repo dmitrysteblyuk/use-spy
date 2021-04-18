@@ -15,7 +15,8 @@
   "repository": "https://github.com/dmitrysteblyuk/use-spy.git",
   "license": "MIT",
   "files": [
-    "lib"
+    "lib",
+    "core"
   ],
   "scripts": {
     "build": "yarn build:clean && yarn build:main && yarn build:module",
