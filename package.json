@@ -1,6 +1,6 @@
 {
   "name": "use-spy",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "State management solution for React without forced structure or pattern.",
   "keywords": [
     "react",

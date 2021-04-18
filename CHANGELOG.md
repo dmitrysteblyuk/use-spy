@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/dmitrysteblyuk/use-spy/compare/v1.2.0...v1.2.1) (2021-04-18)
+
+
+### Bug Fixes
+
+* include core entry to files ([7c6443d](https://github.com/dmitrysteblyuk/use-spy/commit/7c6443dcf4b3558e03967335fe4f1b5b8a207ae5))
+
 # [1.2.0](https://github.com/dmitrysteblyuk/use-spy/compare/v1.1.0...v1.2.0) (2021-04-18)
 
 
