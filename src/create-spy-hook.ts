@@ -1,5 +1,6 @@
+import type {Disposable, Spy, Scheduler, BehaviorObservable} from './types';
 import {spy as defaultSpy} from '.';
-import {Disposable, effectPrivate, Spy, Scheduler} from './types';
+import {effectPrivate} from './constants';
 
 export interface SpyHookOptions {
   spy: Spy;
@@ -14,14 +15,14 @@ export interface RequiredHooks {
 
 export function createSpyHook({useEffect, useRef, useState}: RequiredHooks) {
   return function useSpy<T>(
-    getValue: () => T,
+    reactiveValue: (() => T) | BehaviorObservable<T>,
     {spy = defaultSpy, scheduler}: Partial<SpyHookOptions> = {}
   ) {
     let value!: T;
     const effectRef = useRef<Disposable>();
     if (effectRef.current === undefined) {
       let isInitialized = false;
-      effectRef.current = spy[effectPrivate](getValue, (nextValue) => {
+      effectRef.current = spy[effectPrivate](reactiveValue, (nextValue) => {
         if (value !== (value = nextValue) && isInitialized) {
           setState(nextValue);
         }

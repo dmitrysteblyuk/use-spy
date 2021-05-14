@@ -1,11 +1,47 @@
-import {Scheduler, BehaviorObservable, ChangeObserver, Executable, Disposable, ValueObserver, offPrivate, onPrivate, EffectAPI} from './types';
+import type {Scheduler, BehaviorObservable, ChangeObserver, Executable, Disposable, ValueObserver, EffectAPI} from './types';
+import {offPrivate, onPrivate} from './constants';
+
+class ExplicitEffect<T> implements ChangeObserver, Executable, Disposable {
+  readonly #observable;
+  readonly #observer;
+  readonly #scheduler;
+
+  constructor(
+    observable: BehaviorObservable<T>,
+    observer: ValueObserver<T>,
+    scheduler: Scheduler | null
+  ) {
+    observable[onPrivate](this);
+    this.#observable = observable;
+    this.#observer = observer;
+    this.#scheduler = scheduler;
+    this.execute();
+  }
+  execute() {
+    notifyObserver(this.#observer, this.#observable.$);
+  }
+  dispose() {
+    try {
+      this.#scheduler?.removeFromQueue(this);
+      this.#observable[offPrivate](this);
+    } finally {
+      (this.#observable as unknown)
+        = (this.#observer as unknown)
+        = (this.#scheduler as unknown)
+        = null;
+    }
+  }
+  notify() {
+    scheduleOrExecute(this.#scheduler, this);
+  }
+}
 
 export function createEffectAPI(getDefaultScheduler: () => Scheduler) {
   let currentGlobalDependencies: Set<BehaviorObservable<unknown>> | undefined;
   const onGetValue = (observable: BehaviorObservable<unknown>) => {
     currentGlobalDependencies?.add(observable);
   };
-  class Effect<T> implements ChangeObserver, Executable, Disposable {
+  class ImplicitEffect<T> implements ChangeObserver, Executable, Disposable {
     readonly #getValue;
     readonly #observer;
     readonly #scheduler;
@@ -43,37 +79,54 @@ export function createEffectAPI(getDefaultScheduler: () => Scheduler) {
         }
         this.#dependencies = nextDependencies;
       }
-      if (typeof this.#observer === 'function') {
-        this.#observer(value);
-      } else {
-        this.#observer.next(value);
-      }
+      notifyObserver(this.#observer, value);
     }
     dispose() {
-      this.#scheduler?.removeFromQueue(this);
-      for (const dependency of this.#dependencies) {
-        dependency[offPrivate](this);
+      try {
+        this.#scheduler?.removeFromQueue(this);
+        for (const dependency of this.#dependencies) {
+          dependency[offPrivate](this);
+        }
+      } finally {
+        (this.#dependencies as unknown)
+          = (this.#getValue as unknown)
+          = (this.#observer as unknown)
+          = (this.#scheduler as unknown)
+          = null;
       }
-      (this.#dependencies as unknown)
-        = (this.#getValue as unknown)
-        = (this.#observer as unknown)
-        = (this.#scheduler as unknown)
-        = null;
     }
     notify() {
-      if (this.#scheduler === null) {
-        this.execute();
-      } else {
-        this.#scheduler.addToQueue(this);
-      }
+      scheduleOrExecute(this.#scheduler, this);
     }
   }
   const effect: EffectAPI = (
-    getValue,
+    reactiveValue,
     observer,
     scheduler = getDefaultScheduler()
   ) => {
-    return new Effect(getValue, observer, scheduler);
+    if (typeof reactiveValue === 'function') {
+      return new ImplicitEffect(reactiveValue, observer, scheduler);
+    }
+    return new ExplicitEffect(reactiveValue, observer, scheduler);
   };
   return [effect, onGetValue] as const;
+}
+
+function notifyObserver<T>(observer: ValueObserver<T>, value: T) {
+  if (typeof observer === 'function') {
+    observer(value);
+  } else {
+    observer.next(value);
+  }
+}
+
+function scheduleOrExecute(
+  scheduler: Scheduler | null,
+  executable: Executable
+) {
+  if (scheduler === null) {
+    executable.execute();
+  } else {
+    scheduler.addToQueue(executable);
+  }
 }

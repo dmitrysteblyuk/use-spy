@@ -1,6 +1,7 @@
+import type {Spy, Scheduler} from './types';
 import {createBehaviorSubjectAPI} from './behavior-subject';
 import {createEffectAPI} from './effect';
-import {Spy, effectPrivate, Scheduler} from './types';
+import {effectPrivate} from './constants';
 
 export function createSpy(defaultScheduler: Scheduler) {
   const [effect, onGetValue] = createEffectAPI(() => defaultScheduler);

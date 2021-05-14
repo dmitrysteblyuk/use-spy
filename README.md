@@ -57,12 +57,10 @@ Delegate logic to a factory - https://codesandbox.io/s/nifty-platform-rjr4c
 
 Most state management frameworks for React can be split into 3 groups:
   1. Redux-ish
-  2. Mobx-ish
+  2. MobX-ish
   3. React-ish
 
-Spy is JavaScript-ish because it does not force any pattern or structure.
-
-It is not a framework, it is a native JS solution for the long-standing issue.
+Spy does not force any particular model when it comes to state and logic implementation. It simply enables you to connect any state to UI regardless of how it is implemented.
 
 ### Recoil
 

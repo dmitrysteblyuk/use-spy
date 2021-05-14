@@ -1,6 +1,4 @@
-export const onPrivate = Symbol('on');
-export const offPrivate = Symbol('off');
-export const effectPrivate = Symbol('effect');
+import type {effectPrivate, offPrivate, onPrivate} from './constants';
 
 export interface ChangeObserver {
   notify(): void;
@@ -28,7 +26,7 @@ export interface Scheduler {
 }
 export interface EffectAPI {
   <T>(
-    getValue: () => T,
+    reactiveValue: (() => T) | BehaviorObservable<T>,
     observer: ValueObserver<T>,
     scheduler?: Scheduler | null
   ): Disposable;

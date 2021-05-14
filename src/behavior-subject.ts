@@ -1,4 +1,5 @@
-import {BehaviorSubject, BehaviorObservable, ChangeObserver, offPrivate, onPrivate} from './types';
+import type {BehaviorSubject, BehaviorObservable, ChangeObserver} from './types';
+import {offPrivate, onPrivate} from './constants';
 
 export function createBehaviorSubjectAPI(
   onGetValue: (observable: BehaviorObservable<unknown>) => void
